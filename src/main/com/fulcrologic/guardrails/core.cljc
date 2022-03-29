@@ -84,6 +84,8 @@
 
 (def tap (resolve 'tap>))
 
+(def ^:dynamic *problem-str* exp/expound-str)
+
 (defn run-check [{:keys [tap>? args? vararg? callsite throw? fn-name expound-opts]} spec value]
   (let [start           (now-ms)
         vargs?          (and args? vararg?)
@@ -96,7 +98,7 @@
         valid-exception (atom nil)]
     (try
       (when-not (s/valid? spec specable-args)
-        (let [problem     (exp/expound-str spec specable-args expound-opts)
+        (let [problem     (*problem-str* spec specable-args expound-opts)
               description (str
                             "\n"
                             fn-name
